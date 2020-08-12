@@ -6,6 +6,12 @@ var taskFormHandler = function(){
     var taskNameInput = document.querySelector("input[name='task-name']").value;
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
 
+    if (!taskNameInput || !taskTypeInput){
+        return false;
+    }
+
+    formEl.reset();
+
     var taskDataObj = {
         name: taskNameInput,
         type: taskTypeInput
