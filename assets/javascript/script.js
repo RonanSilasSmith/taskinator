@@ -4,6 +4,9 @@ var pageContentEl = document.querySelector("#page-content");
 var taskIdCounter = 0;
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var tasks =[
+
+]
 
 var completeEditTask = function(taskName, taskType, taskId){
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
@@ -11,6 +14,12 @@ var completeEditTask = function(taskName, taskType, taskId){
     taskSelected.querySelector("h3.task-name").textContent = taskName;
     taskSelected.querySelector("span.task-type").textContent = taskType;
 
+    for(var i = 0; i < tasks.length; i++){
+        if (tasks[i].id === parseInt(taskId)){
+        tasks[i].name = taskName;
+        tasks[i].type = taskType;
+        }
+    }
 
     formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
@@ -37,7 +46,8 @@ var taskFormHandler = function(){
     }else{
         var taskDataObj = {
             name: taskNameInput,
-            type: taskTypeInput
+            type: taskTypeInput,
+            status: "to do"
         };
     }
 
@@ -69,6 +79,9 @@ var createTaskEl = function(taskDataObj){
 
     // add entire list item to list
     tasksToDoEl.appendChild(listItemEl);
+
+    taskDataObj.id = taskIdCounter;
+    tasks.push(taskDataObj);
 
     taskIdCounter++;
 }
@@ -146,7 +159,7 @@ var taskButtonHandler = function(event) {
         var taskId = targetEl.getAttribute("data-task-id");
         deleteTask(taskId);
       }
-  };
+};
 
 var taskStatusChangeHandler = function(event) {
     var taskId = event.target.getAttribute("data-task-id");
@@ -161,6 +174,12 @@ var taskStatusChangeHandler = function(event) {
         tasksInProgressEl.appendChild(taskSelected);
     }else if(statusValue === "completed"){
         tasksCompletedEl.appendChild(taskSelected);
+    }
+
+    for (var i = 0; i < tasks.length; i++){
+        if(tasks[i].id === parseInt(taskId)){
+            tasks[i].statusValue;
+        }
     }
 };
 
@@ -196,6 +215,12 @@ var dropTaskHandler = function(event){
     }
     dropZoneEl.removeAttribute("style");
     dropZoneEl.appendChild(draggableElement);
+
+    for(var i = 0; i < tasks.length; i++){
+        if(tasks[i].id === parseInt(id)){
+            tasks[i].status = statusSelectEl.value.toLowerCase();
+        }
+    }
 };
 
 var dragLeaveHandler = function(event){
