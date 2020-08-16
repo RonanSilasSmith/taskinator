@@ -80,7 +80,9 @@ var createTaskEl = function(taskDataObj){
     listItemEl.appendChild(taskActionsEl);
 
     // add entire list item to list
+    console.log(tasksToDoEl);
     tasksToDoEl.appendChild(listItemEl);
+    console.log(tasksToDoEl);
 
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
@@ -249,9 +251,27 @@ var dragLeaveHandler = function(event){
 };
 
 var saveTasks = function(){
-    localStorage.setItem("task", JSON.stringify(tasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    console.log(tasks);
 }
 
+var loadTasks = function(){
+    var savedTasks = localStorage.getItem("tasks");
+
+    if (!savedTasks) {
+      return false;
+    }
+  
+    savedTasks = JSON.parse(savedTasks);
+
+    for (var i = 0; i < savedTasks.length; i++) {
+        // pass each task object into the `createTaskEl()` function
+        createTaskEl(savedTasks[i]);
+    }
+}
+
+
+loadTasks();
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 formEl.addEventListener("submit", taskFormHandler);
